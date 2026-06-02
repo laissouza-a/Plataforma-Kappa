@@ -1,122 +1,70 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from 'react';
+
+import StudentDashboard from './features/student/pages/StudentDashboard';
+import SubmissionModule from './features/student/pages/SubmissionModule';
+
+// TO DO: no futuro, quando tivermos o React Router, essas "telas" serão rotas diferentes e não precisarão ficar todas juntas aqui.
+const LoginMock = () => <div className="p-10 text-center text-2xl">Tela de Login</div>;
+const AdminMock = () => <div className="p-10 text-center text-2xl">Dashboard do Admin</div>;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentView, setCurrentView] = useState('login');
+  const [currentMissionId, setCurrentMissionId] = useState(0);
+
+  const handleNavigate = (view, data) => {
+    setCurrentView(view);
+    if (data && data.missionId !== undefined) {
+      setCurrentMissionId(data.missionId);
+    }
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+      {/* MENU DE DESENVOLVIMENTO, apenas para testar as telas rapidamente.
+      */}
+      <div className="bg-slate-800 text-white p-4 flex gap-4 justify-center shadow-md">
+        <span className="font-bold mr-4">DEV NAV:</span>
+        <button 
+          onClick={() => handleNavigate('login')}
+          className={`px-3 py-1 rounded ${currentView === 'login' ? 'bg-blue-500' : 'bg-slate-600 hover:bg-slate-500'}`}
         >
-          Count is {count}
+          Login
         </button>
-      </section>
+        <button 
+          onClick={() => handleNavigate('student_dashboard')}
+          className={`px-3 py-1 rounded ${currentView === 'student_dashboard' ? 'bg-blue-500' : 'bg-slate-600 hover:bg-slate-500'}`}
+        >
+          Aluno: Dashboard
+        </button>
+        <button 
+          onClick={() => handleNavigate('submission')}
+          className={`px-3 py-1 rounded ${currentView === 'submission' ? 'bg-blue-500' : 'bg-slate-600 hover:bg-slate-500'}`}
+        >
+          Aluno: Missão
+        </button>
+        <button 
+          onClick={() => handleNavigate('admin_dashboard')}
+          className={`px-3 py-1 rounded ${currentView === 'admin_dashboard' ? 'bg-blue-500' : 'bg-slate-600 hover:bg-slate-500'}`}
+        >
+          Admin
+        </button>
+      </div>
+      
+      <main className="flex-grow flex flex-col">
+        {currentView === 'login' && <LoginMock />}
+        
+        {currentView === 'student_dashboard' && (
+          <StudentDashboard onNavigate={handleNavigate} />
+        )}
+        
+        {currentView === 'submission' && (
+          <SubmissionModule onNavigate={handleNavigate} activeMissionId={currentMissionId} />
+        )}
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {currentView === 'admin_dashboard' && <AdminMock />}
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
