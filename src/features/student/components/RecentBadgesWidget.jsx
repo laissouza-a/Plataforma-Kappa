@@ -1,6 +1,8 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function RecentBadgesWidget() {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-cyber-black border border-neutral-800">
       <div className="p-4 border-b border-neutral-800 flex items-center justify-between">
@@ -8,7 +10,13 @@ export default function RecentBadgesWidget() {
           <span className="material-symbols-outlined text-purple-400 text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>workspace_premium</span>
           <h3 className="font-mono text-xs font-bold text-white tracking-wider">RECENT_BADGES</h3>
         </div>
-        <a className="font-mono text-neutral-500 hover:text-cyber-cyan transition-colors text-[10px] cursor-pointer">VIEW ALL</a>
+        <button
+          type="button"
+          onClick={() => navigate('/dashboard?tab=badges')}
+          className="font-mono text-neutral-500 hover:text-cyber-cyan transition-colors text-[10px] cursor-pointer"
+        >
+          VIEW ALL
+        </button>
       </div>
       <div className="p-4 grid grid-cols-3 gap-3">
         <div className="aspect-square bg-neutral-900 border border-neutral-800 flex items-center justify-center relative cursor-help">

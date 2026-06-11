@@ -109,7 +109,7 @@ export default function LoginPage() {
             </button>
 
             <p className="text-center font-mono text-xs text-neutral-500">
-              Ainda nao possui acesso?{' '}
+              Ainda não possui acesso?{' '}
               <Link
                 to="/cadastro"
                 className="font-bold text-cyber-cyan hover:text-white transition-colors"

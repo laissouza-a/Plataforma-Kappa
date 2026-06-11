@@ -5,6 +5,7 @@ import TrackModules from '../components/TrackModules';
 import LeaderboardWidget from '../components/LeaderBoardWidget';
 import RecentBadgesWidget from '../components/RecentBadgesWidget';
 import RankingPanel from '../components/RankingPanel';
+import BadgesPanel from '../components/BadgesPanel';
 
 function EmptyDashboardTab({ icon, title, description }) {
   return (
@@ -28,19 +29,13 @@ export default function StudentDashboard() {
       case 'modules':
         return <TrackModules />;
       case 'badges':
-        return (
-          <EmptyDashboardTab
-            icon="military_tech"
-            title="BADGES_ARCHIVE"
-            description="Area reservada para conquistas, medalhas e historico de progresso."
-          />
-        );
+        return <BadgesPanel />;
       case 'settings':
         return (
           <EmptyDashboardTab
             icon="settings"
             title="SETTINGS_PANEL"
-            description="Configuracoes do operador serao disponibilizadas nas proximas fases."
+            description="Configurações do operador serão disponibilizadas nas próximas fases."
           />
         );
       default:

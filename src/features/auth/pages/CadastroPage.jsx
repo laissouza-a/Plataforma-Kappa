@@ -23,7 +23,7 @@ export default function CadastroPage() {
     }
 
     if (password !== confirmPassword) {
-      setError('As senhas nao conferem.');
+      setError('As senhas não conferem.');
       return;
     }
 
@@ -39,7 +39,7 @@ export default function CadastroPage() {
       login(access_token, user);
       navigate('/dashboard');
     } catch {
-      setError('Nao foi possivel criar o cadastro. Tente novamente.');
+      setError('Não foi possível criar o cadastro. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -73,7 +73,7 @@ export default function CadastroPage() {
 
             <div className="flex flex-col gap-1.5">
               <label className="font-mono text-xs text-neutral-400 tracking-widest uppercase">
-                Nome de usuario
+                Nome de usuário
               </label>
               <input
                 type="text"
@@ -149,7 +149,7 @@ export default function CadastroPage() {
             </button>
 
             <p className="text-center font-mono text-xs text-neutral-500">
-              Ja possui credencial?{' '}
+              Já possui credencial?{' '}
               <Link
                 to="/login"
                 className="font-bold text-cyber-cyan hover:text-white transition-colors"
