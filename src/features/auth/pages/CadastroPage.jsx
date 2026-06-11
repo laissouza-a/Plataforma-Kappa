@@ -3,19 +3,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { auth as authService } from '../../../services/api';
 
-export default function LoginPage() {
+export default function CadastroPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      setError('Preencha e-mail e senha.');
+
+    if (!username || !email || !password || !confirmPassword) {
+      setError('Preencha todos os campos.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('As senhas nao conferem.');
       return;
     }
 
@@ -23,11 +31,15 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const { access_token, user } = await authService.login(email, password);
+      const { access_token, user } = await authService.register({
+        username,
+        email,
+        password,
+      });
       login(access_token, user);
       navigate('/dashboard');
     } catch {
-      setError('Credenciais inválidas. Tente novamente.');
+      setError('Nao foi possivel criar o cadastro. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -51,13 +63,27 @@ export default function LoginPage() {
         <div className="bg-white/5 backdrop-blur-md border border-cyber-cyan/20 rounded-sm p-8 shadow-[0_0_40px_rgba(0,219,233,0.07)]">
 
           <h2 className="font-space-mono text-sm font-bold text-white tracking-widest mb-1">
-            ACCESS TERMINAL
+            CREATE ACCESS
           </h2>
           <p className="text-neutral-500 text-xs font-mono mb-8">
-            Insira suas credenciais para acessar a plataforma.
+            Crie sua credencial para iniciar na plataforma.
           </p>
 
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+
+            <div className="flex flex-col gap-1.5">
+              <label className="font-mono text-xs text-neutral-400 tracking-widest uppercase">
+                Nome de usuario
+              </label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="operative_01"
+                autoComplete="username"
+                className="bg-cyber-black/80 border border-neutral-700 rounded-sm px-4 py-3 text-sm text-white font-mono placeholder:text-neutral-600 focus:outline-none focus:border-cyber-cyan transition-colors duration-200"
+              />
+            </div>
 
             <div className="flex flex-col gap-1.5">
               <label className="font-mono text-xs text-neutral-400 tracking-widest uppercase">
@@ -82,7 +108,21 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                autoComplete="current-password"
+                autoComplete="new-password"
+                className="bg-cyber-black/80 border border-neutral-700 rounded-sm px-4 py-3 text-sm text-white font-mono placeholder:text-neutral-600 focus:outline-none focus:border-cyber-cyan transition-colors duration-200"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="font-mono text-xs text-neutral-400 tracking-widest uppercase">
+                Confirmar senha
+              </label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="••••••••"
+                autoComplete="new-password"
                 className="bg-cyber-black/80 border border-neutral-700 rounded-sm px-4 py-3 text-sm text-white font-mono placeholder:text-neutral-600 focus:outline-none focus:border-cyber-cyan transition-colors duration-200"
               />
             </div>
@@ -101,20 +141,20 @@ export default function LoginPage() {
               {loading ? (
                 <>
                   <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                  AUTENTICANDO...
+                  CRIANDO ACESSO...
                 </>
               ) : (
-                'ACESSAR PLATAFORMA'
+                'CRIAR CADASTRO'
               )}
             </button>
 
             <p className="text-center font-mono text-xs text-neutral-500">
-              Ainda nao possui acesso?{' '}
+              Ja possui credencial?{' '}
               <Link
-                to="/cadastro"
+                to="/login"
                 className="font-bold text-cyber-cyan hover:text-white transition-colors"
               >
-                Fazer Cadastro
+                Voltar para login
               </Link>
             </p>
 

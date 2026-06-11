@@ -2,6 +2,7 @@ import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import LoginPage from './features/auth/pages/LoginPage';
+import CadastroPage from './features/auth/pages/CadastroPage';
 import StudentDashboard from './features/student/pages/StudentDashboard';
 import SubmissionModule from './features/student/pages/SubmissionModule';
 
@@ -26,6 +27,7 @@ function DevNav() {
       <span className="font-bold font-mono text-slate-400 mr-2">DEV:</span>
       {[
         { label: 'Login', path: '/login' },
+        { label: 'Cadastro', path: '/cadastro' },
         { label: 'Dashboard', path: '/dashboard' },
         { label: 'Missão 0', path: '/missao/0' },
         { label: 'Missão 1', path: '/missao/1' },
@@ -58,6 +60,7 @@ export default function App() {
       <div className="flex-1 overflow-hidden">
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/cadastro" element={<CadastroPage />} />
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<StudentDashboard />} />
             <Route path="/missao/:missionId" element={<SubmissionModule />} />

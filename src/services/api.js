@@ -93,11 +93,27 @@ export const auth = {
   // POST /api/v1/auth/login  (rota ainda não existe no backend)
   async login(email, _password) {
     await delay(MOCK_DELAY);
+    void _password;
     return {
       access_token: 'mock-jwt-token',
       user: {
         id: MOCK_DASHBOARD.aluno_id,
         username: MOCK_DASHBOARD.username,
+        email,
+        perfil: 'ALUNO',
+      },
+    };
+  },
+
+  // POST /api/v1/auth/register  (rota ainda não existe no backend)
+  async register({ username, email, password: _password }) {
+    await delay(MOCK_DELAY);
+    void _password;
+    return {
+      access_token: 'mock-jwt-token',
+      user: {
+        id: crypto.randomUUID?.() ?? `mock-user-${Date.now()}`,
+        username,
         email,
         perfil: 'ALUNO',
       },
