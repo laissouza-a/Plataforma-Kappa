@@ -6,7 +6,6 @@ const RANKING_MOCK = [
     xp_total: 98000,
     xp_semana: 8200,
     missoes: 48,
-    ofensiva: 31,
     status: 'ONLINE',
   },
   {
@@ -16,7 +15,6 @@ const RANKING_MOCK = [
     xp_total: 87500,
     xp_semana: 7100,
     missoes: 44,
-    ofensiva: 24,
     status: 'ONLINE',
   },
   {
@@ -26,7 +24,6 @@ const RANKING_MOCK = [
     xp_total: 74200,
     xp_semana: 6400,
     missoes: 39,
-    ofensiva: 18,
     status: 'IDLE',
   },
   {
@@ -36,7 +33,6 @@ const RANKING_MOCK = [
     xp_total: 61000,
     xp_semana: 5200,
     missoes: 35,
-    ofensiva: 15,
     status: 'OFFLINE',
   },
   {
@@ -46,7 +42,6 @@ const RANKING_MOCK = [
     xp_total: 4200,
     xp_semana: 1200,
     missoes: 6,
-    ofensiva: 7,
     status: 'ONLINE',
     current: true,
   },
@@ -95,14 +90,10 @@ export default function RankingPanel({ currentUsername }) {
               <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>workspace_premium</span>
             </div>
             <h3 className="font-mono text-white text-lg font-bold truncate">{player.username}</h3>
-            <div className="grid grid-cols-2 gap-3 mt-5">
+            <div className="grid grid-cols-1 gap-3 mt-5">
               <div className="bg-neutral-950/70 border border-neutral-800 p-3">
                 <p className="font-mono text-[10px] text-neutral-500">TOTAL_XP</p>
                 <p className="font-mono text-cyber-cyan text-sm">{formatXp(player.xp_total)}</p>
-              </div>
-              <div className="bg-neutral-950/70 border border-neutral-800 p-3">
-                <p className="font-mono text-[10px] text-neutral-500">STREAK</p>
-                <p className="font-mono text-cyber-green text-sm">{player.ofensiva} dias</p>
               </div>
             </div>
           </article>
