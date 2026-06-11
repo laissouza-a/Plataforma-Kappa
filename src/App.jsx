@@ -1,70 +1,99 @@
-import { useState } from 'react';
-
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
 import StudentDashboard from './features/student/pages/StudentDashboard';
 import SubmissionModule from './features/student/pages/SubmissionModule';
 
-// TO DO: no futuro, quando tivermos o React Router, essas "telas" serão rotas diferentes e não precisarão ficar todas juntas aqui.
-const LoginMock = () => <div className="p-10 text-center text-2xl">Tela de Login</div>;
-const AdminMock = () => <div className="p-10 text-center text-2xl">Dashboard do Admin</div>;
+// ─── Placeholders (substituídos nas fases 2 e 5) ─────────────────────────────
 
-function App() {
-  const [currentView, setCurrentView] = useState('login');
-  const [currentMissionId, setCurrentMissionId] = useState(0);
+function LoginMock() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleNavigate = (view, data) => {
-    setCurrentView(view);
-    if (data && data.missionId !== undefined) {
-      setCurrentMissionId(data.missionId);
-    }
+  const handleMockLogin = () => {
+    login('mock-jwt-token', {
+      id: 'a1b2c3d4-0000-0000-0000-000000000001',
+      username: 'Antônio Eduardo',
+      perfil: 'ALUNO',
+    });
+    navigate('/dashboard');
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* MENU DE DESENVOLVIMENTO, apenas para testar as telas rapidamente.
-      */}
-      <div className="bg-slate-800 text-white p-4 flex gap-4 justify-center shadow-md">
-        <span className="font-bold mr-4">DEV NAV:</span>
-        <button 
-          onClick={() => handleNavigate('login')}
-          className={`px-3 py-1 rounded ${currentView === 'login' ? 'bg-blue-500' : 'bg-slate-600 hover:bg-slate-500'}`}
+    <div className="min-h-screen bg-cyber-bg flex items-center justify-center">
+      <div className="text-center">
+        <p className="text-neutral-400 font-mono mb-6">Tela de Login — Fase 2</p>
+        <button
+          onClick={handleMockLogin}
+          className="px-6 py-2 bg-cyber-cyan text-black font-mono font-bold rounded hover:shadow-[0_0_15px_rgba(0,219,233,0.4)] transition-all"
         >
-          Login
-        </button>
-        <button 
-          onClick={() => handleNavigate('student_dashboard')}
-          className={`px-3 py-1 rounded ${currentView === 'student_dashboard' ? 'bg-blue-500' : 'bg-slate-600 hover:bg-slate-500'}`}
-        >
-          Aluno: Dashboard
-        </button>
-        <button 
-          onClick={() => handleNavigate('submission')}
-          className={`px-3 py-1 rounded ${currentView === 'submission' ? 'bg-blue-500' : 'bg-slate-600 hover:bg-slate-500'}`}
-        >
-          Aluno: Missão
-        </button>
-        <button 
-          onClick={() => handleNavigate('admin_dashboard')}
-          className={`px-3 py-1 rounded ${currentView === 'admin_dashboard' ? 'bg-blue-500' : 'bg-slate-600 hover:bg-slate-500'}`}
-        >
-          Admin
+          Entrar (mock)
         </button>
       </div>
-      
-      <main className="flex-grow flex flex-col">
-        {currentView === 'login' && <LoginMock />}
-        
-        {currentView === 'student_dashboard' && (
-          <StudentDashboard onNavigate={handleNavigate} />
-        )}
-        
-        {currentView === 'submission' && (
-          <SubmissionModule onNavigate={handleNavigate} activeMissionId={currentMissionId} />
-        )}
-
-        {currentView === 'admin_dashboard' && <AdminMock />}
-      </main>
     </div>
   );
 }
 
-export default App;
+function AdminMock() {
+  return (
+    <div className="min-h-screen bg-cyber-bg flex items-center justify-center">
+      <p className="text-neutral-400 font-mono">Dashboard do Admin — Fase 5</p>
+    </div>
+  );
+}
+
+// ─── Barra de navegação de desenvolvimento ───────────────────────────────────
+
+function DevNav() {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  return (
+    <div className="bg-slate-900 border-b border-slate-700 text-white p-3 flex gap-3 justify-center items-center flex-none text-sm">
+      <span className="font-bold font-mono text-slate-400 mr-2">DEV:</span>
+      {[
+        { label: 'Login', path: '/login' },
+        { label: 'Dashboard', path: '/dashboard' },
+        { label: 'Missão 0', path: '/missao/0' },
+        { label: 'Missão 1', path: '/missao/1' },
+        { label: 'Admin', path: '/admin' },
+      ].map(({ label, path }) => (
+        <button
+          key={path}
+          onClick={() => navigate(path)}
+          className="px-3 py-1 rounded bg-slate-700 hover:bg-slate-600 transition-colors font-mono"
+        >
+          {label}
+        </button>
+      ))}
+      <button
+        onClick={logout}
+        className="px-3 py-1 rounded bg-red-900 hover:bg-red-800 transition-colors font-mono ml-4"
+      >
+        Logout
+      </button>
+    </div>
+  );
+}
+
+// ─── App ─────────────────────────────────────────────────────────────────────
+
+export default function App() {
+  return (
+    <div className="h-screen flex flex-col overflow-hidden">
+      <DevNav />
+      <div className="flex-1 overflow-hidden">
+        <Routes>
+          <Route path="/login" element={<LoginMock />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<StudentDashboard />} />
+            <Route path="/missao/:missionId" element={<SubmissionModule />} />
+            <Route path="/admin" element={<AdminMock />} />
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </div>
+  );
+}
