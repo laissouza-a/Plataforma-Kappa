@@ -7,6 +7,13 @@
   --color-cyber-cyan: #00dbe9;
   --color-cyber-yellow: #FFF01F;
   --color-cyber-green: #2ae500;
+  --color-cyber-purple: #BC13FE;
+  --color-cyber-red: #FF3131;
+  --color-cyber-orange: #FFAC1C;
+  --color-cyber-gold: #FFD700;
+
+  --font-orbitron: 'Orbitron', sans-serif;
+  --font-space-mono: 'Space Mono', monospace;
 }
 
 body, html, #root {
