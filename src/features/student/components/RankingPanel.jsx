@@ -71,7 +71,7 @@ export default function RankingPanel({ currentUsername }) {
         <span className="material-symbols-outlined text-cyber-yellow" style={{ fontVariationSettings: "'FILL' 1" }}>leaderboard</span>
         <div>
           <h2 className="text-lg font-bold text-white tracking-wide font-mono">RANKING_ARENA</h2>
-          <p className="font-mono text-xs text-neutral-500">Classificacao geral dos operadores da plataforma.</p>
+          <p className="font-mono text-xs text-neutral-500">Classificação geral dos operadores da plataforma.</p>
         </div>
       </div>
 
@@ -119,7 +119,7 @@ export default function RankingPanel({ currentUsername }) {
               <p className="font-mono text-cyber-green">+{formatXp(currentPlayer.xp_semana)}</p>
             </div>
             <div className="bg-cyber-black/80 border border-neutral-800 px-4 py-3">
-              <p className="font-mono text-[10px] text-neutral-500">MISSOES</p>
+              <p className="font-mono text-[10px] text-neutral-500">MISSÕES</p>
               <p className="font-mono text-cyber-yellow">{currentPlayer.missoes}</p>
             </div>
           </div>
@@ -132,7 +132,7 @@ export default function RankingPanel({ currentUsername }) {
             <span>RANK</span>
             <span>OPERADOR</span>
             <span className="text-right">XP</span>
-            <span className="text-right">MISSOES</span>
+            <span className="text-right">MISSÕES</span>
             <span className="text-right">STATUS</span>
           </div>
 
