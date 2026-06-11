@@ -1,38 +1,11 @@
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
+import LoginPage from './features/auth/pages/LoginPage';
 import StudentDashboard from './features/student/pages/StudentDashboard';
 import SubmissionModule from './features/student/pages/SubmissionModule';
 
-// ─── Placeholders (substituídos nas fases 2 e 5) ─────────────────────────────
-
-function LoginMock() {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
-  const handleMockLogin = () => {
-    login('mock-jwt-token', {
-      id: 'a1b2c3d4-0000-0000-0000-000000000001',
-      username: 'Antônio Eduardo',
-      perfil: 'ALUNO',
-    });
-    navigate('/dashboard');
-  };
-
-  return (
-    <div className="min-h-screen bg-cyber-bg flex items-center justify-center">
-      <div className="text-center">
-        <p className="text-neutral-400 font-mono mb-6">Tela de Login — Fase 2</p>
-        <button
-          onClick={handleMockLogin}
-          className="px-6 py-2 bg-cyber-cyan text-black font-mono font-bold rounded hover:shadow-[0_0_15px_rgba(0,219,233,0.4)] transition-all"
-        >
-          Entrar (mock)
-        </button>
-      </div>
-    </div>
-  );
-}
+// ─── Placeholder (substituído na fase 5) ─────────────────────────────────────
 
 function AdminMock() {
   return (
@@ -84,7 +57,7 @@ export default function App() {
       <DevNav />
       <div className="flex-1 overflow-hidden">
         <Routes>
-          <Route path="/login" element={<LoginMock />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<StudentDashboard />} />
             <Route path="/missao/:missionId" element={<SubmissionModule />} />
